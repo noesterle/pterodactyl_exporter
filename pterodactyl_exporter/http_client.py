@@ -6,11 +6,15 @@ import dateutil.parser
 client = None
 headers = None
 srv = None
+modified_server = None
 
 
-def client_init(config_file: dict):
+def client_init(config_file: dict, mod_server=None):
     global client
     global headers
+    global modified_server
+    modified_server = mod_server
+
     if config_file['https']:
         client = http.client.HTTPSConnection(config_file['host'], 443, check_hostname=not config_file['ignore_ssl'])
     else:
@@ -36,8 +40,9 @@ def get_server(list_type="owner"):
         "io": [],
         "max_cpu": [],
         "last_backup_time": [],
-        "online_players": [],
     }
+    if modified_server is not None:
+        modified_server.add_srv_keys(srv)
     client.request("GET", "/api/client/?type={}".format(list_type), "", headers)
     servers = json.loads(client.getresponse().read())
     if "errors" in servers:
@@ -69,11 +74,9 @@ def get_metrics():
         srv["rx"].append(metrics["network_rx_bytes"]/1000000)
         srv["tx"].append(metrics["network_tx_bytes"]/1000000)
         srv["uptime"].append(metrics["uptime"])
-        if "online_players" in metrics:
-            srv["online_players"] = metrics["online_players"]
-        else:
-            srv["online_players"] = -1.0
 
+        if modified_server is not None:
+            modified_server.get_metrics(srv, metrics)
 
         get_last_backup_time(x, 1)
 

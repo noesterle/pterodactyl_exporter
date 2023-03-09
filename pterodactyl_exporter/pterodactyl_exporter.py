@@ -21,19 +21,29 @@ def main(args=None):
         args = sys.argv[1:]
     config_file = parse_args()
     config = config_load.get_config(config_file)
-    http_client.client_init(config)
-    http_server.init_metrics()
+    mod_server = get_modified_server(config['host'])
+    http_client.client_init(config, mod_server)
+    http_server.init_metrics(mod_server)
 
     while True:
         try:
             http_client.get_server(config["server_list_type"])
             metrics = http_client.get_metrics()
-            http_server.serve_metrics(metrics)
+            http_server.serve_metrics(metrics, mod_server)
             time.sleep(10)
         except http.client.RemoteDisconnected:
             print("API not responding!")
             time.sleep(10)
             continue
+
+
+def get_modified_server(host):
+    modified_server = None
+    if host == 'mc.bloom.host':
+        from modified_sources.bloom import Bloom as modified_server
+        modified_server = modified_server()
+    
+    return modified_server
 
 
 if __name__ == '__main__':
