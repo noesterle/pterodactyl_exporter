@@ -74,13 +74,13 @@ WantedBy=multi-user.target
  
  - Download the config file from GitHub:
  ```
- curl -fsSL -o config.yml https://raw.githubusercontent.com/LOENS2/pterodactyl_exporter/master/config.example.yml
+ curl -fsSL -o config.yml https://raw.githubusercontent.com/noesterle/pterodactyl_exporter/master/config.example.yml
  ```
  - Create a folder named `docker`
  
  - Download the `docker-compose.yml` into that folder:
  ```
- curl -fsSL -o docker-compose.yml https://raw.githubusercontent.com/LOENS2/pterodactyl_exporter/master/docker/docker-compose.yml
+ curl -fsSL -o docker-compose.yml https://raw.githubusercontent.com/noesterle/pterodactyl_exporter/master/docker/docker-compose.yml
  ```
  - Run the container:
  ```
@@ -93,7 +93,7 @@ WantedBy=multi-user.target
 
  - Clone the project:
 ```
-git clone https://github.com/LOENS2/pterodactyl_exporter.git
+git clone https://github.com/noesterle/pterodactyl_exporter.git
 ```
  - Change to the cloned directory
  - Run with python:
