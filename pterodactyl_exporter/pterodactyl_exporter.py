@@ -42,7 +42,8 @@ def get_modified_server(host):
     if host == 'mc.bloom.host':
         from modified_sources.bloom import Bloom as modified_server
         modified_server = modified_server()
-    
+    # elif host == 'example.com':
+    #     from modified_sources.example import Example as modified_server
     return modified_server
 
 
