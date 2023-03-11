@@ -1,5 +1,13 @@
 # Pterodactyl Exporter
 
+This is an extendable Pterodactyl metrics exporter for Prometheus forked from [LEONS2's pterodactyl_exporter](https://github.com/LOENS2/pterodactyl_exporter).
+This is designed to not only support Pterdactyl API but also support modified versions of the Pterodactyl API.
+The implementation of the Pterdactyl API used by the application is determined by the value of `host` in `config.yml`.
+
+### Supported Pterodactyl API Implementations
+- [Pterdactyl](https://pterodactyl.io/)
+- [Bloom](https://bloom.host/)
+
 ### Please use the Discussion for Support rather than the Issues.
 
 A python script that exports performance metrics from Pterodactyl Panel 1.x via the Client API, converts the data to the correct format and provides a prometheus target.
@@ -74,13 +82,13 @@ WantedBy=multi-user.target
  
  - Download the config file from GitHub:
  ```
- curl -fsSL -o config.yml https://raw.githubusercontent.com/LOENS2/pterodactyl_exporter/master/config.example.yml
+ curl -fsSL -o config.yml https://raw.githubusercontent.com/noesterle/pterodactyl_exporter/master/config.example.yml
  ```
  - Create a folder named `docker`
  
  - Download the `docker-compose.yml` into that folder:
  ```
- curl -fsSL -o docker-compose.yml https://raw.githubusercontent.com/LOENS2/pterodactyl_exporter/master/docker/docker-compose.yml
+ curl -fsSL -o docker-compose.yml https://raw.githubusercontent.com/noesterle/pterodactyl_exporter/master/docker/docker-compose.yml
  ```
  - Run the container:
  ```
@@ -93,7 +101,7 @@ WantedBy=multi-user.target
 
  - Clone the project:
 ```
-git clone https://github.com/LOENS2/pterodactyl_exporter.git
+git clone https://github.com/noesterle/pterodactyl_exporter.git
 ```
  - Change to the cloned directory
  - Run with python:

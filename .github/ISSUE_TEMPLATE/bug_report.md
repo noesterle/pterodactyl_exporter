@@ -3,7 +3,7 @@ name: Bug report
 about: Create a report to help us improve
 title: XYZ doesn't work as intended
 labels: bug, enhancement
-assignees: LOENS2
+assignees: noesterle
 
 ---
 
