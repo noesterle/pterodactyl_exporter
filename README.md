@@ -1,5 +1,13 @@
 # Pterodactyl Exporter
 
+This is an extendable Pterodactyl metrics exporter for Prometheus forked from [LEONS2's pterodactyl_exporter](https://github.com/LOENS2/pterodactyl_exporter).
+This is designed to not only support Pterdactyl API but also support modified versions of the Pterodactyl API.
+The implementation of the Pterdactyl API used by the application is determined by the value of `host` in `config.yml`.
+
+### Supported Pterodactyl API Implementations
+- [Pterdactyl](https://pterodactyl.io/)
+- [Bloom](https://bloom.host/)
+
 ### Please use the Discussion for Support rather than the Issues.
 
 A python script that exports performance metrics from Pterodactyl Panel 1.x via the Client API, converts the data to the correct format and provides a prometheus target.
