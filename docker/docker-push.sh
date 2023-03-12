@@ -4,24 +4,54 @@ LATEST=""
 VERSION_NUM=""
 ID=""
 HELP=""
+VERBOSE=3
 
-while getopts "ln:i:h" arg; do
+while getopts "ln:i:hv" arg; do
 	case $arg in
 		l) LATEST=1;;
 		n) VERSION_NUM=$OPTARG;;
 		i) ID=$OPTARG;;
-		h) HELP=1
+		h) HELP=1;;
+		v) VERBOSE=6;;
 	esac
 done
 
+Help()
+{
+   # Display Help
+   echo "Tags and pushes versioned and/or latest Docker images based on input."
+   echo
+   echo "Syntax: docker-push.sh -i <image id> [-l] [-n version_number] [-h]"
+   echo "options:"
+   echo "i     Docker Image ID of the image to tag and push."
+   echo "h     Print this Help."
+   echo "l     Push the Docker Image to Dockerhub with the 'latest' tag."
+   echo "n     Push the Docker Image to Dockerhub with a version number tag."
+   echo "v     Verbose mode."
+   echo
+}
+
 if [[ $HELP ]]; then
-	echo "Print help info"
+	Help
 	exit 0
 fi
 
+# https://stackoverflow.com/a/33597663
+declare -A LOG_LEVELS
+# https://en.wikipedia.org/wiki/Syslog#Severity_level
+LOG_LEVELS=([0]="emerg" [1]="alert" [2]="crit" [3]="err" [4]="warning" [5]="notice" [6]="info" [7]="debug")
+log() {
+  local LEVEL=${1}
+  shift
+  if [[ ${VERBOSE} -ge ${LEVEL} ]]; then
+    echo "[${LOG_LEVELS[$LEVEL]}]" "$@"
+  fi
+}
+
 if [[ ! $ID ]]; then
-	echo "An image ID is required"
-	echo "example: bash docker-push.sh -i e88"
+	log 3 "An image ID is required"
+	VERBOSE=6
+	log 6 "example: bash docker-push.sh -i e88"
 	exit 1
 fi
 
@@ -29,12 +59,16 @@ USERNAME="noesterle"
 REPO_NAME="pterodactyl_exporter"
 
 if [[ $VERSION_NUM ]]; then
-	echo "docker tag $ID $USERNAME"/"$REPO_NAME:$VERSION_NUM"
-	echo "docker push $USERNAME"/"$REPO_NAME:$VERSION_NUM"
+	log 6 "Tagginging image $ID to $USERNAME/$REPO_NAME:$VERSION_NUM"
+	docker tag $ID $USERNAME"/"$REPO_NAME:$VERSION_NUM
+	log 6 "Pushing image $ID to $USERNAME/$REPO_NAME:$VERSION_NUM"
+	docker push $USERNAME"/"$REPO_NAME:$VERSION_NUM
 fi
 
 if [[ $LATEST ]]; then
-	echo "docker tag $ID $USERNAME"/"$REPO_NAME:latest"
-	echo "docker push $USERNAME"/"$REPO_NAME:latest"
+	log 6 "Tagginging image $ID to $USERNAME/$REPO_NAME:latest"
+	docker tag $ID $USERNAME"/"$REPO_NAME:latest
+	log 6 "Pushing image $ID to $USERNAME/$REPO_NAME:latest"
+	docker push $USERNAME"/"$REPO_NAME:latest
 fi
 
