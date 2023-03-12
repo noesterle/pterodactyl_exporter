@@ -1,13 +1,40 @@
-if [[ $# -ne 2 ]]; then
-	echo "Requires two arguement, the id of the image to push and the version number of the software"
-	echo "example: bash docker-push.sh e88 1.0"
+#!/bin/bash
+
+LATEST=""
+VERSION_NUM=""
+ID=""
+HELP=""
+
+while getopts "ln:i:h" arg; do
+	case $arg in
+		l) LATEST=1;;
+		n) VERSION_NUM=$OPTARG;;
+		i) ID=$OPTARG;;
+		h) HELP=1
+	esac
+done
+
+if [[ $HELP ]]; then
+	echo "Print help info"
+	exit 0
+fi
+
+if [[ ! $ID ]]; then
+	echo "An image ID is required"
+	echo "example: bash docker-push.sh -i e88"
 	exit 1
 fi
 
 USERNAME="noesterle"
 REPO_NAME="pterodactyl_exporter"
-docker tag $1 $USERNAME"/"$REPO_NAME:latest
-docker tag $1 $USERNAME"/"$REPO_NAME:$2
 
-docker push $USERNAME"/"$REPO_NAME:latest
-docker push $USERNAME"/"$REPO_NAME:$2
+if [[ $VERSION_NUM ]]; then
+	echo "docker tag $ID $USERNAME"/"$REPO_NAME:$VERSION_NUM"
+	echo "docker push $USERNAME"/"$REPO_NAME:$VERSION_NUM"
+fi
+
+if [[ $LATEST ]]; then
+	echo "docker tag $ID $USERNAME"/"$REPO_NAME:latest"
+	echo "docker push $USERNAME"/"$REPO_NAME:latest"
+fi
+
