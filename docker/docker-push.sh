@@ -21,7 +21,7 @@ Help()
    # Display Help
    echo "Tags and pushes versioned and/or latest Docker images based on input."
    echo
-   echo "Syntax: docker-push.sh -i <image id> [-l] [-n version_number] [-h]"
+   echo "Syntax: docker-push.sh -i <image id> [-l] [-n <version_number>] [-h] [-v]"
    echo "options:"
    echo "i     Docker Image ID of the image to tag and push."
    echo "h     Print this Help."
@@ -50,13 +50,24 @@ log() {
 
 if [[ ! $ID ]]; then
 	log 3 "An image ID is required"
+	OLD_VERBOSE=$VERBOSE
 	VERBOSE=6
 	log 6 "example: bash docker-push.sh -i e88"
+	VERBOSE=$OLD_VERBOSE
 	exit 1
 fi
 
 USERNAME="noesterle"
 REPO_NAME="pterodactyl_exporter"
+
+if [[ ! $VERSION_NUM && ! $LATEST  ]]; then
+	OLD_VERBOSE=$VERBOSE
+	VERBOSE=6
+	log 6 "Add -n <version_number> to tag and push an image with that version."
+	log 6 "Add -l to tag and push an image with the 'latest' tag."
+	log 6 "Both -l and -n <version_number> can be used in the same command."
+	VERBOSE=$OLD_VERBOSE
+fi
 
 if [[ $VERSION_NUM ]]; then
 	log 6 "Tagginging image $ID to $USERNAME/$REPO_NAME:$VERSION_NUM"
