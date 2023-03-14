@@ -148,7 +148,7 @@ python -m pterodactyl_exporter.pterodactyl_exporter --config-file=config.example
 You can view the output with (Time is UTC):
 
 ```
-sudo journalctl -u pterodacyl_exporter.service -b --since "2024-12-14 13:45:27"
+sudo journalctl -u pterodactyl_exporter.service -b --since "2024-12-14 13:45:27"
 ```
 
 Post any stacktraces as an Issue.
