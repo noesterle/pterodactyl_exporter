@@ -17,11 +17,13 @@ max_cpu = Gauge("pterodactyl_server_max_cpu_absolute", "Maximum cpu load allowed
 last_backup_time = Gauge("pterodactyl_server_most_recent_backup_time", "Timestamp of the most recent backup", label_names)
 
 
-def init_metrics():
+def init_metrics(mod_server=None):
     start_http_server(9531)
+    if mod_server is not None:
+        mod_server.add_gauge(label_names)
 
 
-def serve_metrics(metrics):
+def serve_metrics(metrics, mod_server=None):
     for x in range(len(metrics["id"])):
         srv_label = metrics['name'][x]
         id_label = metrics['id'][x]
@@ -37,3 +39,6 @@ def serve_metrics(metrics):
         io.labels(srv_label, id_label).set(metrics["io"][x])
         max_cpu.labels(srv_label, id_label).set(metrics["max_cpu"][x])
         last_backup_time.labels(srv_label, id_label).set(metrics["last_backup_time"][x])
+
+        if mod_server is not None:
+            mod_server.serve_metrics(srv_label, id_label, metrics, x)

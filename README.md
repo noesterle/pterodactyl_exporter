@@ -158,3 +158,4 @@ Post any stacktraces as an Issue.
 With special thanks to @grimsi for helping me with docker.
 
 &copy; LOENS2 2022
+&copy; noesterle 2023
