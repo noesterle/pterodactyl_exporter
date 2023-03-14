@@ -16,6 +16,40 @@ This can be used for time series monitoring of Pterodactyl game servers and visu
 
 Feel free to try this script and submit an issue if needed.
 
+# How to build and use Docker Image
+
+### What you need:
+
+ * Bash
+ * Docker
+ * Docker Compose (optional)
+
+There are scripts in `docker/` to assist with building, running, and deploying a docker image.
+This all requires docker to be installed, which can be verified by running `docker --version` and seeing a valid version and build number, such as `Docker version 20.10.21, build 20.10.21-0ubuntu1~22.04.2`.
+Once Docker is installed correctly, verify it can run images as containers by following the [Whalesay](https://hub.docker.com/r/docker/whalesay/) tutorial.
+
+### Build
+
+To build a docker image, be in the `pterodactyl_exporter` folder and run `bash docker/docker-build.sh`.
+Verify a new image is build by running `docker images`.
+For other scripts, note the `IMAGE ID`.
+
+### Run
+
+To run the image in a container, run `bash docker/docker-run.sh <IMAGE ID>`.
+Verify the container is running by using the command `docker ps`, a new container should appear with the entered `IMAGE ID`.
+
+To view the statistics gathered by the containerized application, open your web browser and go to `0.0.0.0:9531`.
+Statistics should appear and update periodically.
+
+### Push
+
+To push the image, run `bash docker/docker-push.sh -i <IMAGE ID> [-l] [-n VERSION NUMBER] [-h] [-v]`.
+Add the `-h` flag to print help output.
+
+Once an image is pushed, `docker/docker-compose.yml` can be used to pull and run the image in a container.
+The statistics can be viewed the same way as running a locally built image.
+
 # How to install
 
 #### What you need:
@@ -114,7 +148,7 @@ python -m pterodactyl_exporter.pterodactyl_exporter --config-file=config.example
 You can view the output with (Time is UTC):
 
 ```
-sudo journalctl -u pterodacyl_exporter.service -b --since "2024-12-14 13:45:27"
+sudo journalctl -u pterodactyl_exporter.service -b --since "2024-12-14 13:45:27"
 ```
 
 Post any stacktraces as an Issue.

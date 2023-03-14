@@ -1,0 +1,6 @@
+docker/
+Dockerfile
+.dockerignore
+config*
+Pipfile*
+docker-*.sh
