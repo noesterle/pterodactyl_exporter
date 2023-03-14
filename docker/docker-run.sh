@@ -5,5 +5,4 @@ if [[ $# -ne 1 ]]; then
 	exit 1
 fi
 
-cd ..
-docker run -d -p 9531:9531 --mount type=bind,source=/home/nathan/code/git/pterodactyl_exporter/config.yml,target=/opt/pterodactyl_exporter/config/config.yml -t $1
+docker run -d -p 9531:9531 --mount type=bind,source=$(pwd)/config.yml,target=/opt/pterodactyl_exporter/config/config.yml -t $1
