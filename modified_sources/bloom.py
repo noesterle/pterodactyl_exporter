@@ -16,7 +16,6 @@ class Bloom:
 
     def get_metrics(self,srv,metrics):
         if "online_players" in metrics:
-            print(metrics["online_players"])
             srv["online_players"].append(metrics["online_players"])
         else:
             srv["online_players"].append(-1.0)
