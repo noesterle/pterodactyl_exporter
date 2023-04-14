@@ -12,10 +12,10 @@ class Bloom:
         self.online_players = Gauge("pterodactyl_server_online_players", "Number of players online for the server", label_names)
 
     def serve_metrics(self, srv_label, id_label, metrics, server_index):
-        self.online_players.labels(srv_label, id_label).set(metrics["online_players"])
+        self.online_players.labels(srv_label, id_label).set(metrics["online_players"][server_index])
 
     def get_metrics(self,srv,metrics):
         if "online_players" in metrics:
-            srv["online_players"] = metrics["online_players"]
+            srv["online_players"].append(metrics["online_players"])
         else:
-            srv["online_players"] = -1.0
+            srv["online_players"].append(-1.0)
