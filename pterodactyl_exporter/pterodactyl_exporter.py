@@ -43,7 +43,7 @@ def main():
         log_to_console("Config Error:", True, True, e)
         raise SystemExit
 
-    mod_server = get_modified_server(config['host'])
+    mod_server = get_modified_server(config.host)
     http_client = HTTPClient(config)
     http_server = HTTPServer(config, mod_server)
 
