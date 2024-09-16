@@ -44,7 +44,7 @@ def main():
         raise SystemExit
 
     mod_server = get_modified_server(config.host)
-    http_client = HTTPClient(config)
+    http_client = HTTPClient(config, mod_server)
     http_server = HTTPServer(config, mod_server)
 
     log_to_console("Init successful!")

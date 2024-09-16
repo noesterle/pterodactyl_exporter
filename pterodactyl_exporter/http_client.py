@@ -15,6 +15,8 @@ class HTTPClient:
             "Accept": "application/json"
         }
         self.mod_server = mod_server
+        if self.mod_server != None:
+            self.mod_server.add_metrics(self.metrics)
 
     def get_metrics(self):
         self.metrics = Metrics()
@@ -84,7 +86,7 @@ class HTTPClient:
         last_successful_backup = max(
             (dateutil.parser.isoparse(backup["attributes"]["completed_at"]).timestamp()
              for backup in backups
-             if backup["attributes"]["is_successful"]), default=0
+             if "is_successful" in backup["attributes"] and backup["attributes"]["is_successful"]), default=0
         ) if backups else 0
         self.metrics.last_backup_time.append(last_successful_backup)
 

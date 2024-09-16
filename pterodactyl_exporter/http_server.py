@@ -25,7 +25,7 @@ class HTTPServer:
         }
         
         if mod_server is not None:
-            mod_server.add_gauge(label_names)
+            mod_server.add_gauge(self.metric_gauges,label_names)
 
     def serve_metrics(self, metrics: Metrics, mod_server=None):
         for index in range(len(metrics.name)):
@@ -35,4 +35,4 @@ class HTTPServer:
                 if metric_name not in ['name', 'id']:
                     self.metric_gauges[metric_name].labels(srv_label, id_label).set(value[index])
                     if mod_server is not None:
-                        mod_server.serve_metrics(srv_label, id_label, metrics, x)
+                        mod_server.serve_metrics(self.metric_gauges, metric_name, srv_label, id_label, value, index)
