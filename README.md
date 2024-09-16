@@ -52,12 +52,21 @@ The statistics can be viewed the same way as running a locally built image.
 
 # How to install
 
-#### What you need:
+## What you need:
 
  * Linux server (should run on Windows as well, but is only tested in a linux environment)
  * Prometheus
  * Python (3.10)
- * Pterodactyl client API key (service account with read only is recommended)
+ * Pterodactyl client API key 
+   * Service account with read only is recommended
+   * You only need to set `Backup->Read` as permission for the account to the server you want to monitor.
+
+## Run as Pterodactyl Server
+
+ - Download the Egg JSON from `egg/egg-pterodactyl-exporter.json` or the releases
+ - Import the Egg into the Nest of your choice
+ - Create the server from the egg and fill in the required config values
+ - Run the server
 
 ## Run as service
 
@@ -73,6 +82,7 @@ pip install pterodactyl-exporter
  
  ```yml
 host: panel.example.com
+port: 9531 #Standard port for the exporter
 api_key: APIKEY_APIKEYAPIKEYAPIKEY
 https: true
 ignore_ssl: false
@@ -138,6 +148,13 @@ WantedBy=multi-user.target
 git clone https://github.com/noesterle/pterodactyl_exporter.git
 ```
  - Change to the cloned directory
+```
+cd pterodactyl_exporter
+```
+ - Install dependencies:
+```
+python -m pip install -r requirements.txt
+```
  - Run with python:
 ```
 python -m pterodactyl_exporter.pterodactyl_exporter --config-file=config.example.yml
@@ -157,5 +174,5 @@ Post any stacktraces as an Issue.
 
 With special thanks to @grimsi for helping me with docker.
 
-&copy; LOENS2 2022
-&copy; noesterle 2023
+&copy; LOENS2 2023
+&copy; noesterle 2024
