@@ -24,14 +24,6 @@ def get_config_file_path():
     return parser.parse_args().config_file
 
 
-def main(args=None):
-    if args is None:
-        args = sys.argv[1:]
-    config_file = parse_args()
-    config = config_load.get_config(config_file)
-    mod_server = get_modified_server(config['host'])
-    http_client.client_init(config, mod_server)
-
 def main():
     config_path = get_config_file_path()
     try:
