@@ -1,4 +1,5 @@
-host: 
+host:
+port: 9531 # This is tge standard port for the exporter
 api_key: 
 https: true
 ignore_ssl: false
