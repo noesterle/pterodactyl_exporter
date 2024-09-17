@@ -15,11 +15,11 @@ class HTTPClient:
             "Accept": "application/json"
         }
         self.mod_server = mod_server
-        if self.mod_server != None:
-            self.mod_server.add_metrics(self.metrics)
 
     def get_metrics(self):
         self.metrics = Metrics()
+        if self.mod_server != None:
+            self.metrics = self.mod_server.add_metrics(self.metrics)
         t1 = time.time()
         servers = self.fetch_server()
         pages = servers['meta']['pagination']['total_pages']
@@ -74,6 +74,8 @@ class HTTPClient:
         self.metrics.rx.append(self.convert_byte_to_mebibyte(resources["network_rx_bytes"]))
         self.metrics.tx.append(self.convert_byte_to_mebibyte(resources["network_tx_bytes"]))
         self.metrics.uptime.append(resources["uptime"])
+        if self.mod_server != None:
+            self.mod_server.process_resources(self.metrics, resources)
 
     def fetch_last_backup_time(self, server_id, index, page):
         url = f"{self.get_url()}/api/client/servers/{server_id}/backups?per_page=50&page={page}"
